@@ -1,10 +1,9 @@
 import { WerewolfGame, Role, Player, darkenHexColor } from "./index.js";
 
-
 // global variables
 var currentGame = new WerewolfGame();
 window.currentGame = currentGame;
-loadGame();
+// loadGame();
 loadPageContent();
 
 // crud functions
@@ -20,11 +19,12 @@ function saveGame() {
   localStorage.setItem("currentGame", JSON.stringify(currentGame));
 }
 
-function loadGame() {
-  const gameData = JSON.parse(localStorage.getItem("currentGame"));
-  if(gameData) currentGame.loadSavedGame(gameData);
-  else console.log("No game data found. Starting new game.");
-}
+//TODO: implement saved game loading once game is functional
+// function loadGame() {
+//   const gameData = JSON.parse(localStorage.getItem("currentGame"));
+//   if(gameData) currentGame.loadSavedGame(gameData);
+//   else console.log("No game data found. Starting new game.");
+// }
 
 // render functions
 function createPlayerCard(player) {
@@ -236,6 +236,17 @@ function refreshPlayerList() {
   while(playerList.firstChild) playerList.removeChild(playerList.firstChild);
   if(currentGame.players) { 
     currentGame.players.forEach(player => playerList.appendChild(createPlayerCard(player)));
+  }
+  // if there are players, add the number of them to the player count display
+  if(currentGame.players.length) {
+    document.getElementById("player-count").innerText = `${currentGame.playerCount} Players`;
+  } else {
+    document.getElementById("player-count").innerText = " ";
+
+    var noPlayers = document.createElement('p');
+    noPlayers.setAttribute("id", "no-players");
+    noPlayers.innerHTML = "Add four or more players to start.";
+    document.getElementById("players-list").appendChild(noPlayers);
   }
 }
 

@@ -18,12 +18,15 @@ export class Player {
     this.abilityUsed = false; // applies to roles with single use ability
   }
 
-  static fromData(data, game) {
-    let player = new Player(data.name);
-    Object.assign(player, data);
-    player.role = game.roles.find(role => role.key === data.role.key);
-    return player;
-  }
+  //TODO: fix this causing null error after deleting player without role.
+  // static fromData(data, game) {
+  //   console.log(data);
+  //   console.log(game);
+  //   let player = new Player(data.name);
+  //   Object.assign(player, data);
+  //   player.role = game.roles.find(role => role.key === data.role.key);
+  //   return player;
+  // }
 
   assignRole(roleToAssign) {
     this.role = roleToAssign;
