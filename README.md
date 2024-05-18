@@ -13,6 +13,7 @@ v3. Automated game master with player login. Benefit: Everyone can play the game
 
 While I'm unsure of how far down the list I will make it, I will keep going as long as I keep learning from the process.<br><br>
 
+<a href="https://trello.com/b/QWiJ29qH/werewolf">Backlog</a><br>
 <ul>
 <b>Current Progress: v0.7</b>
 <li>Game setup - done</li>
