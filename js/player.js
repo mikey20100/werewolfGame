@@ -19,14 +19,14 @@ export class Player {
   }
 
   //TODO: fix this causing null error after deleting player without role.
-  // static fromData(data, game) {
-  //   console.log(data);
-  //   console.log(game);
-  //   let player = new Player(data.name);
-  //   Object.assign(player, data);
-  //   player.role = game.roles.find(role => role.key === data.role.key);
-  //   return player;
-  // }
+  static fromData(data, game) {
+    // console.log(data);
+    // console.log(game);
+    let player = new Player(data.name);
+    Object.assign(player, data);
+    player.role = game.roles.find(role => role.key === data.role.key);
+    return player;
+  }
 
   assignRole(roleToAssign) {
     this.role = roleToAssign;

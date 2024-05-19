@@ -3,7 +3,7 @@ import { WerewolfGame, Role, Player, darkenHexColor } from "./index.js";
 // global variables
 var currentGame = new WerewolfGame();
 window.currentGame = currentGame;
-// loadGame();
+loadGame();
 loadPageContent();
 
 // crud functions
@@ -20,11 +20,11 @@ function saveGame() {
 }
 
 //TODO: implement saved game loading once game is functional
-// function loadGame() {
-//   const gameData = JSON.parse(localStorage.getItem("currentGame"));
-//   if(gameData) currentGame.loadSavedGame(gameData);
-//   else console.log("No game data found. Starting new game.");
-// }
+function loadGame() {
+  const gameData = JSON.parse(localStorage.getItem("currentGame"));
+  if(gameData) currentGame.loadSavedGame(gameData);
+  else console.log("No game data found. Starting new game.");
+}
 
 // render functions
 function createPlayerCard(player) {
@@ -489,6 +489,7 @@ function loadPageContent() {
           currentGame.queueAnnouncements([]);
           startNewDay();
           dayNightBtn.value = "Next Night";
+          checkForWinner();
         }
       });
       startNewDay();

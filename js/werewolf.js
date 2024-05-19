@@ -48,14 +48,14 @@ export class WerewolfGame {
   }
 
   // TODO: implement saved game loading once game is functional
-  // loadSavedGame(savedGame) {
-  //   this.expansion = savedGame.expansion;
-  //   this.roles = savedGame.roles.map(roleData => Role.fromData(roleData));
-  //   this.players = savedGame.players.map(playerData => Player.fromData(playerData, this));
-  //   this.morningAnnouncements = savedGame.morningAnnouncements;
-  //   this.day = savedGame.day;
-  //   this.night = savedGame.night;
-  // }
+  loadSavedGame(savedGame) {
+    this.expansion = savedGame.expansion;
+    this.roles = savedGame.roles.map(roleData => Role.fromData(roleData));
+    this.players = savedGame.players.map(playerData => Player.fromData(playerData, this));
+    this.morningAnnouncements = savedGame.morningAnnouncements;
+    this.day = savedGame.day;
+    this.night = savedGame.night;
+  }
 
   getWerewolfCount() {
     return this.expansion ? Math.ceil(this.playerCount / 4) : Math.ceil(this.playerCount / 5);
@@ -128,9 +128,15 @@ export class WerewolfGame {
 
   getMorningAnnouncements() {
     const day = `Day ${this.day}`
-    const introduction = `As the sun rises, ${this.livingCount} players step out of their homes.`;
+    var introduction = `As the sun rises, ${this.livingCount} players step out of their homes.`;
     const announcements = this.morningAnnouncements[this.day - 1].length ? [...this.morningAnnouncements[day - 1]] : `It was a quiet night... rare in these parts.`;  
     const closing = `Residents gather in the town square to discuss their werewolf problem. They may nominate one player to be eliminated.`;
+    if(this.day === 1){
+      introduction = `Last night, whispers of werewolves prowling the shadows filled the air, and now, with ${this.livingCount} villagers gathered, 
+            the time has come to confront this menace. Together, you must use your wits and instincts to uncover the werewolves hiding among you. 
+            The fate of the village rests on your shoulders.`
+      // announcements = `The villagers have awoken to find that the werewolves have struck, leaving ${this.eliminatedCount} dead.
+    }
     // const closing = `The sun sets on Day ${day}. The residents of Werewolf Valley return to their homes, hoping to survive the night.`;
     return [day, introduction, announcements, closing]; 
   }
@@ -160,7 +166,9 @@ export class WerewolfGame {
     const jesterWon = this.graveyard.find(player => player.role.key === 'jester' && player.eliminatedBy === 'vote');
   
     // check if werewolves won
-    if(livingWerewolves === livingResidents) winner = 'Werewolves';
+
+    console.log(`Living werewolves: ${livingWerewolves}, Living residents: ${livingResidents}`);
+    if(livingWerewolves >= livingResidents) winner = 'Werewolves';
     // check if town won
     else if(!livingWerewolves) winner = 'Town';
     // check if jester won
