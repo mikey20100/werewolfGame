@@ -3,7 +3,7 @@ import { WerewolfGame, Role, Player, darkenHexColor } from "./index.js";
 // global variables
 var currentGame = new WerewolfGame();
 window.currentGame = currentGame;
-loadGame();
+// loadGame();
 loadPageContent();
 
 // crud functions
@@ -234,6 +234,7 @@ function newRoleCard(role) {
 function refreshPlayerList() {
   let playerList = document.getElementById("players-list");
   while(playerList.firstChild) playerList.removeChild(playerList.firstChild);
+  console.log(currentGame.players);
   if(currentGame.players) { 
     currentGame.players.forEach(player => playerList.appendChild(createPlayerCard(player)));
   }
@@ -299,6 +300,16 @@ function addStartGameButton() {
     window.location.href = "game.html";
   });
   document.getElementById("game-setup").appendChild(startGameBtn);
+}
+
+function addExportRoleListButton() {
+  const exportRolesBtn = document.createElement("input");
+  exportRolesBtn.id = "export-roles-btn"; exportRolesBtn.type = "button"; exportRolesBtn.className = "primary-btn"; exportRolesBtn.value = "Export Roles";
+  exportRolesBtn.addEventListener("click", () => {
+    // saveGame();
+    window.location.href = "export.html";
+  });
+  document.getElementById("game-setup").appendChild(exportRolesBtn);
 }
 
 // voting fucntionality
@@ -506,6 +517,7 @@ function setupGame() {
     // if there are at least four players and roles are assigned, enable start game
     if(currentGame.playerCount >= 4 && !currentGame.unassignedPlayers.length) {
       addStartGameButton();
+      addExportRoleListButton();
       document.getElementById("assign-roles-btn").value = "Reset Roles";
     }
   }
@@ -534,6 +546,7 @@ function setupGame() {
 
         refreshPlayerList();
         addStartGameButton();
+        addExportRoleListButton();
         e.target.value = "Reset Roles";
       } else {
         // display alert message to add players
@@ -551,6 +564,7 @@ function setupGame() {
       currentGame.resetRoleAssignments();
       refreshPlayerList();
       document.getElementById("start-game-btn").remove();
+      document.getElementById("export-roles-btn").remove();
       e.target.value = "Assign Roles";
     }
   });
