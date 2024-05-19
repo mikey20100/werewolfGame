@@ -3,6 +3,7 @@ import { WerewolfGame, Role, Player, darkenHexColor } from "./index.js";
 // global variables
 var currentGame = new WerewolfGame();
 window.currentGame = currentGame;
+ var playerRoleData = {};
 // loadGame();
 loadPageContent();
 
@@ -235,6 +236,7 @@ function refreshPlayerList() {
   let playerList = document.getElementById("players-list");
   while(playerList.firstChild) playerList.removeChild(playerList.firstChild);
   console.log(currentGame.players);
+  playerRoleData = currentGame.players;
   if(currentGame.players) { 
     currentGame.players.forEach(player => playerList.appendChild(createPlayerCard(player)));
   }
@@ -302,11 +304,11 @@ function addStartGameButton() {
   document.getElementById("game-setup").appendChild(startGameBtn);
 }
 
-function addExportRoleListButton() {
+function addExportRoleListButton(rolesList) {
   const exportRolesBtn = document.createElement("input");
   exportRolesBtn.id = "export-roles-btn"; exportRolesBtn.type = "button"; exportRolesBtn.className = "primary-btn"; exportRolesBtn.value = "Export Roles";
   exportRolesBtn.addEventListener("click", () => {
-    // saveGame();
+    localStorage.setItem("currentRoles", JSON.stringify(rolesList));
     window.location.href = "export.html";
   });
   document.getElementById("game-setup").appendChild(exportRolesBtn);
@@ -517,7 +519,7 @@ function setupGame() {
     // if there are at least four players and roles are assigned, enable start game
     if(currentGame.playerCount >= 4 && !currentGame.unassignedPlayers.length) {
       addStartGameButton();
-      addExportRoleListButton();
+      addExportRoleListButton(playerRoleData);
       document.getElementById("assign-roles-btn").value = "Reset Roles";
     }
   }
@@ -546,7 +548,7 @@ function setupGame() {
 
         refreshPlayerList();
         addStartGameButton();
-        addExportRoleListButton();
+        addExportRoleListButton(playerRoleData);
         e.target.value = "Reset Roles";
       } else {
         // display alert message to add players
